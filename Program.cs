@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WebAPICRUD.Domain.Persistence;
+using WebAPICRUD.Infrastructure.Endpoints;
 
 namespace WebAPICRUD
 {
@@ -36,8 +37,7 @@ namespace WebAPICRUD
             app.UseAuthorization();
 
             app.MapGet("/", () => "Hello World!").Produces(200,typeof(string));
-
-
+            app.MapCountryEndpoints();
 
             app.Run();
         }
