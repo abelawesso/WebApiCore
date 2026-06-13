@@ -36,9 +36,9 @@
     container_name: webapicrud
     restart: always
     ports:
-      - "7066:7066"
-      - "5020:5020"
+      - "8080:8080"
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=webapi;Username=admin;Password=secret
     depends_on:
       postgres:

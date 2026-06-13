@@ -5,6 +5,7 @@ using WebAPICRUD.Domain.Persistence;
 using WebAPICRUD.Infrastructure;
 using WebAPICRUD.Infrastructure.Endpoints;
 using WebAPICRUD.Infrastructure.Interfaces;
+using Serilog;
 
 namespace WebAPICRUD
 {
@@ -16,6 +17,8 @@ namespace WebAPICRUD
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddLogging();
 
             // Register the country service for dependency injection
             builder.Services.AddTransient<ICountryService, CountryService>();
@@ -35,9 +38,10 @@ namespace WebAPICRUD
             {
                 app.MapOpenApi();
                 app.MapScalarApiReference();
+                app.UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
+            
 
             app.UseAuthorization();
 

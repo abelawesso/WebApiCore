@@ -6,10 +6,9 @@ using WebAPICRUD.Infrastructure.Interfaces;
 
 namespace WebAPICRUD.Infrastructure
 {
-    public class CountryService(AppDbContext context, ILogger logger) : ICountryService
+    public class CountryService(AppDbContext context) : ICountryService
     {
         private readonly AppDbContext _context = context;
-        private readonly ILogger _logger = logger;
 
         public async Task<CountryDto> CreateCountryAsync(CreateCountry createCountry)
         {
@@ -27,7 +26,6 @@ namespace WebAPICRUD.Infrastructure
             var country = await _context.Countries.FindAsync(id);
             if (country is null)
             {
-                _logger.LogWarning("Country with id {Id} not found for deletion.", id);
                 throw new ArgumentNullException($"Country with id {id} not found.");
             }
             country.MarkAsDeleted();
@@ -54,7 +52,7 @@ namespace WebAPICRUD.Infrastructure
            var country = await _context.Countries.FindAsync(id);
             if (country is null)
             {
-                _logger.LogWarning("Country with id {Id} not found for update.", id);
+               
                throw new ArgumentNullException($"Country with id {id} not found.");
             }
             country.Update(updateCountry.Name, updateCountry.DateOfIndependence, updateCountry.Motto,
