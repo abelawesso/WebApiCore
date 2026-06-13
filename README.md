@@ -24,7 +24,7 @@ WebAPICRUD est une application Web API ASP.NET Core conçue pour servir de point
 - **.NET Target** : .NET 10.0
 - **Architecture** : Web API RESTful
 - **Outils de conteneurisation** : Docker
-- **Documentation API** : OpenAPI (Swagger)
+- **Documentation API** : ScalarAPI (Scalar)
 
 ## Prérequis
 
@@ -83,24 +83,7 @@ L'application inclut OpenAPI (Swagger) pour la documentation interactive :
 
 ### WeatherForecast
 
-#### Obtenir les prévisions météorologiques
 
-```http
-GET /weatherforecast HTTP/1.1
-Host: localhost:7000
-```
-
-**Réponse** (200 OK) :
-```json
-[
-  {
-	"date": "2025-01-01",
-	"temperatureC": 25,
-	"temperatureF": 77,
-	"summary": "Warm"
-  }
-]
-```
 
 ## Configuration Docker
 

@@ -48,6 +48,7 @@ namespace WebAPICRUD.Domain
             UpdateLastModified();
         }
 
+
         /** This method can be used to validate the country properties before updating or creating a new country instance.
          */
         public static void ValidateCountry(string name, DateTime dateOfIndependence, string motto, long population, string currencyCode)
