@@ -1,4 +1,12 @@
 
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
+using WebAPICRUD.Domain.Persistence;
+using WebAPICRUD.Infrastructure;
+using WebAPICRUD.Infrastructure.Endpoints;
+using WebAPICRUD.Infrastructure.Interfaces;
+using Serilog;
+
 namespace WebAPICRUD
 {
     public class Program
@@ -7,42 +15,38 @@ namespace WebAPICRUD
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddLogging();
+
+            // Register the country service for dependency injection
+            builder.Services.AddTransient<ICountryService, CountryService>();
+
             // Add services to the container.
             builder.Services.AddAuthorization();
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
+
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
+                app.UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
+            
 
             app.UseAuthorization();
 
-            var summaries = new[]
-            {
-                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-            };
-
-            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-            {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                    .ToArray();
-                return forecast;
-            })
-            .WithName("GetWeatherForecast");
+            app.MapGet("/", () => "Hello World!").Produces(200,typeof(string));
+            app.MapCountryEndpoints();
 
             app.Run();
         }
