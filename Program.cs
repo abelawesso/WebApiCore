@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WebAPICRUD.Domain.Persistence;
+using WebAPICRUD.Infrastructure;
 using WebAPICRUD.Infrastructure.Endpoints;
+using WebAPICRUD.Infrastructure.Interfaces;
 
 namespace WebAPICRUD
 {
@@ -14,6 +16,9 @@ namespace WebAPICRUD
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Register the country service for dependency injection
+            builder.Services.AddTransient<ICountryService, CountryService>();
 
             // Add services to the container.
             builder.Services.AddAuthorization();
