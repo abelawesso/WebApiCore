@@ -15,6 +15,7 @@ namespace WebAPICRUD.Infrastructure
            var country = Country.Create(createCountry.Name, createCountry.DateOfIndependence, createCountry.Motto,
                createCountry.Population, createCountry.CurrencyCode);
 
+
            await _context.Countries.AddAsync(country);
           await _context.SaveChangesAsync();
            return await Task.FromResult(new CountryDto(country.Id, country.Name, country.DateOfIndependence, country.Motto, 
